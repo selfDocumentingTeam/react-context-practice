@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-const axios = require("axios");
+const axios = require('axios');
 
 export function createOptions(verb, body) {
 	const options = {
 		method: verb,
 		headers: {
 			'Content-Type': 'application/json',
-			Accept: 'application/json'
-        },
+			Accept: 'application/json',
+		},
 		cache: 'no-store',
 		referrerPolicy: 'no-referrer',
 		mode: 'cors',
@@ -36,20 +36,24 @@ export async function parseJSON(response) {
 }
 
 function updateSearch(search, location, searchLocation, dispatch) {
-	dispatch({
-		type: 'UPDATE_SEARCH',
-		payload: {search, location, searchLocation },
-	});
-	const options = createOptions('GET');
-	const fullUrl = searchLocation ? `/api/explore?near=${searchLocation}&query=${search}` : `/api/explore?ll=${location}&query=${search}`
-	fetch(fullUrl, options)
-		.then(parseJSON)
-		.then((data) => {
-			dispatch({
-				type: "GET_RESULTS",
-				payload: data.response
-			})
+	if (location || searchLocation) {
+		dispatch({
+			type: 'UPDATE_SEARCH',
+			payload: { search, location, searchLocation },
 		});
+		const options = createOptions('GET');
+		const fullUrl = searchLocation
+			? `/api/explore?near=${searchLocation}&query=${search}`
+			: `/api/explore?ll=${location}&query=${search}`;
+		fetch(fullUrl, options)
+			.then(parseJSON)
+			.then((data) => {
+				dispatch({
+					type: 'GET_RESULTS',
+					payload: data.response,
+				});
+			});
+	}
 }
 
 const updateDeviceLocation = (location, dispatch) => {
@@ -64,6 +68,6 @@ const updateSearchLocation = (location, dispatch) => {
 		type: 'UPDATE_SEARCH_LOCATION',
 		payload: location,
 	});
-}
+};
 
 export { updateSearch, updateDeviceLocation, updateSearchLocation };
