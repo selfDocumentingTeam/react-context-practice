@@ -2,19 +2,31 @@
   "name": "jph-application",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3002",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^11.1.2",
-    "@testing-library/user-event": "^12.2.2",
+    "@testing-library/react": "^11.1.1",
+    "@testing-library/user-event": "^12.2.0",
+    "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fontawesome": "^5.6.3",
+    "jest": "26.6.0",
+    "nodemon": "^2.0.6",
+    "path": "^0.12.7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
+    "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "node server",
+    "launch": "concurrently --kill-others-on-fail \"react-scripts start\"  \"nodemon server\"",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --env=jsdom --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -34,5 +46,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.12.1",
+    "@testing-library/jest-dom": "^5.11.6"
   }
 }
